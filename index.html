@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <script>
+    // One-time client reset for the local tracker/annotation store.
+    if (new URLSearchParams(location.search).get('reset') === '1') {
+      localStorage.clear();
+      sessionStorage.clear();
+      document.cookie.split(';').forEach(function (cookie) {
+        var name = cookie.split('=')[0].trim();
+        if (name) document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+      });
+      history.replaceState({}, document.title, location.pathname);
+    }
+  </script>
+  <title>Signals Defense</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
