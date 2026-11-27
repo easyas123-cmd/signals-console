@@ -1,4 +1,4 @@
-// Pure helpers ported from the previous console (homelab/sdr/sites/sdr/index.html).
+// Pure, dependency-free formatting and comparison helpers.
 // No DOM, no state — safe to unit-reason about.
 
 export const n0 = v => v ?? 0;
@@ -129,4 +129,4 @@ export function csvOf(rows, cols) {
 // Optional external dashboard base (e.g. a Grafana/Kibana URL). Empty = feature hidden.
 export const WZ = '';
 export const wzq = q => !WZ ? '' : WZ + '/app/discover#/?_g=(time:(from:now-30d,to:now))&_a=(query:(language:kuery,query:\'' + encodeURIComponent(q).replace(/'/g, '%27') + '\'))';
-export const trustCmd = (mac, label) => `sudo secops-wifi trust ${mac} --label '${label || '…'}'`;
+export const trustCmd = (mac, label) => `sudo signals-wifi trust ${mac} --label '${label || '…'}'`;

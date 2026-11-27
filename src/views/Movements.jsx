@@ -40,7 +40,7 @@ export default function Movements() {
       <DataTable id="mv" rows={rows} cols={cols} defaultSort="-start" limit={200} empty="No visits in the window." />
       <p className="note" style={{ padding: '10px 14px 14px' }}>
         A parked car is silent — “drove away” is inferred from a falling RSSI trend, never observed.
-        Tag your own cars (<code>secops-rf tag</code>) to turn these into home/away state.
+        Tag your own cars (<code>signals-rf tag</code>) to turn these into home/away state.
       </p>
     </Panel>
   );

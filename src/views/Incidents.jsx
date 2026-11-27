@@ -24,7 +24,7 @@ export default function Incidents() {
         <Tools><Filters defs={F} rows={all} cur={f} /><QuickBox ph="filter by uid, text, MAC…" /></Tools>
         {rows.map(i => <IncidentRow key={i.uid} i={i} />)}
         {!rows.length && <Panel><Empty>Nothing here. Good.</Empty></Panel>}
-        <p className="note">Close or suppress with <code>sudo secops-incident</code>; the change propagates within a minute.</p>
+        <p className="note">Close or suppress with <code>sudo signals-incident</code>; the change propagates within a minute.</p>
       </Section>
     </>
   );
@@ -70,8 +70,8 @@ function IncidentRow({ i }) {
               </div>
             ))}
             {i.status === 'open' && (
-              <pre className="cmd">sudo secops-incident close {i.id} --reason '…'
-                <button type="button" className="btn sm" onClick={() => navigator.clipboard.writeText(`sudo secops-incident close ${i.id} --reason ''`)}>copy</button>
+              <pre className="cmd">sudo signals-incident close {i.id} --reason '…'
+                <button type="button" className="btn sm" onClick={() => navigator.clipboard.writeText(`sudo signals-incident close ${i.id} --reason ''`)}>copy</button>
               </pre>
             )}
           </div>
@@ -80,7 +80,7 @@ function IncidentRow({ i }) {
       <div className="inc-right">
         <span className="inc-meta">{i.status}<br />{i.events?.length || 0} events</span>
         <button type="button" className="btn accent" onClick={() => setOpen(o => !o)}>{open ? 'Hide' : 'Investigate'}</button>
-        <DashboardLink q={`data.secops.uid:"${i.uid}"`} label="history" />
+        <DashboardLink q={`data.signals.uid:"${i.uid}"`} label="history" />
       </div>
     </article>
   );

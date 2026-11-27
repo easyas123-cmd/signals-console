@@ -81,7 +81,7 @@ function Overview() {
                 <span className="mut num" style={{ marginLeft: 'auto' }}>{n0(a.clients)} clients</span>
               </div>
             ))}
-            {!ours.length && <Empty>No SSIDs declared yet — <code>sudo secops-wifi ssid add "…"</code></Empty>}
+            {!ours.length && <Empty>No SSIDs declared yet — <code>sudo signals-wifi ssid add "…"</code></Empty>}
           </div>
         </Panel>
       </div>
@@ -146,7 +146,7 @@ function Aps() {
         rowCls={a => (a.age_seconds ?? 1e9) > 86400 ? 'stale' : ''} />
       <p className="note" style={{ padding: '10px 14px 14px' }}>
         <b>‹no beacon›</b> rows are BSSIDs Kismet inferred from client frames only — security and signal are unknown, not open.
-        Declare your SSIDs with <code>sudo secops-wifi ssid add "…"</code> and trust your BSSIDs with <code>sudo secops-wifi trust &lt;bssid&gt; --label …</code>.
+        Declare your SSIDs with <code>sudo signals-wifi ssid add "…"</code> and trust your BSSIDs with <code>sudo signals-wifi trust &lt;bssid&gt; --label …</code>.
       </p>
     </Panel>
   );
@@ -170,7 +170,7 @@ function Clients() {
         rowCls={c => (c.age_seconds ?? 1e9) > 86400 ? 'stale' : ''} />
       <p className="note" style={{ padding: '10px 14px 14px' }}>
         <b>Random MAC</b> (second hex digit 2/6/A/E) is normal for phones since iOS 14 / Android 10 — one phone can be dozens of rows.
-        Identify a device on your AP by its vendor + timing, then <code>sudo secops-wifi trust &lt;mac&gt; --label …</code>.
+        Identify a device on your AP by its vendor + timing, then <code>sudo signals-wifi trust &lt;mac&gt; --label …</code>.
       </p>
     </Panel>
   );

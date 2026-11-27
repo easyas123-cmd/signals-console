@@ -3,7 +3,7 @@
 A dense, dark "instrument panel" single-page dashboard for a home RF and Wi-Fi monitoring system.
 It shows what's on the air and on the network: Wi-Fi and BLE devices, wireless incidents, an
 RF spectrum sweep, an ADS-B aircraft map, scheduled sensor jobs, and a device timeline. Built as
-the frontend for a personal homelab signals-monitoring project.
+the frontend for a personal signals-monitoring project.
 
 This repository is the **frontend only**. It's a static React SPA that reads JSON from a same-origin
 backend (see "Data" below); the collectors and relay that produce that data are not included.

@@ -78,7 +78,7 @@ function Ap({ mac }) {
         <ActivityPanel x={a} />
         <AlertsPanel mac={mac} />
         {a.ours || lbl
-          ? <Cmd cmd={`sudo secops-wifi untrust ${a.mac}`} note="Only if this radio is not yours after all." />
+          ? <Cmd cmd={`sudo signals-wifi untrust ${a.mac}`} note="Only if this radio is not yours after all." />
           : <Cmd cmd={trustCmd(a.mac, apName(a))} note="Only for radios you own. A neighbour's AP stays untrusted — trusting it would hide a real evil twin." />}
       </div>
     </>
@@ -126,7 +126,7 @@ function Client({ mac }) {
         <ActivityPanel x={c} />
         <AlertsPanel mac={mac} />
         {c.trusted
-          ? <Cmd cmd={`sudo secops-wifi untrust ${c.mac}`} />
+          ? <Cmd cmd={`sudo signals-wifi untrust ${c.mac}`} />
           : <Cmd cmd={trustCmd(c.mac, c.manuf || '')} note="Only once you know what it is. Trusted clients stop raising WF-004/005/009." />}
       </div>
     </>
@@ -222,7 +222,7 @@ function Addr({ mac }) {
       <div className="grid2">
         <ActivityPanel x={b} />
         <AlertsPanel mac={mac} />
-        {b.trusted ? <Cmd cmd={`sudo secops-wifi untrust ${b.mac}`} />
+        {b.trusted ? <Cmd cmd={`sudo signals-wifi untrust ${b.mac}`} />
           : fixed ? <Cmd cmd={trustCmd(b.mac, b.name || b.manuf || '')} note="Static/public addresses are stable." />
             : <Panel title="Trusting"><p className="note">Rotating address — trusting it is pointless (it changes in ~15 min). Research the <a href={e ? entHref(e) : '#/wireless/ble'}>entity</a> instead.</p></Panel>}
       </div>

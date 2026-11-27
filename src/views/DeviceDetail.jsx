@@ -25,7 +25,7 @@ export default function DeviceDetail({ slug }) {
 
   if (!d) return <Panel><Empty>Not in the current inventory.</Empty></Panel>;
   const t = d.known || {}; const identity = d.identity || {}; const key = 'rf|' + d.key;
-  const tagCmd = `sudo secops-rf tag '${d.key}' --label '${t.label || '…'}' --kind ${t.kind || (d.transient ? 'car' : 'sensor')}${t.kind === 'car' || d.transient ? ' --present home' : ''}`;
+  const tagCmd = `sudo signals-rf tag '${d.key}' --label '${t.label || '…'}' --kind ${t.kind || (d.transient ? 'car' : 'sensor')}${t.kind === 'car' || d.transient ? ' --present home' : ''}`;
   const visits = [...(D?.visits || [])].reverse();
 
   return (
@@ -67,7 +67,7 @@ export default function DeviceDetail({ slug }) {
             <dt>Last reading</dt><dd className="mono">{Object.entries(d.last_decode || {}).map(([k, v]) => k + '=' + v).join(' · ') || '–'}</dd>
             {t.note ? <><dt>Note</dt><dd>{t.note}</dd></> : null}
           </dl>
-          <div className="panel-sub" style={{ margin: '12px 0 6px' }}>{t.label ? 'Re-tag' : 'Tag it'} · on homelab-01</div>
+          <div className="panel-sub" style={{ margin: '12px 0 6px' }}>{t.label ? 'Re-tag' : 'Tag it'}</div>
           <pre className="cmd">{tagCmd}<button type="button" className="btn sm" onClick={() => navigator.clipboard.writeText(tagCmd)}>copy</button></pre>
         </Panel>
         <NotesCard k={key} label={dname(d)} />
@@ -84,7 +84,7 @@ export default function DeviceDetail({ slug }) {
             </div>
           ) : <Empty>No overlapping activity yet.</Empty>}
         </Panel>
-        <Panel title="Incidents" right={<DashboardLink q={`data.secops.meta.device_key:"${d.key}"`} label="history" />}>
+        <Panel title="Incidents" right={<DashboardLink q={`data.signals.meta.device_key:"${d.key}"`} label="history" />}>
           {(D?.incidents || []).length ? (
             <div className="rowlist">
               {D.incidents.map(i => (

@@ -209,7 +209,7 @@ export function trackTick() {
   return events;
 }
 
-// ---------- live feed (SSE from secops_live.py via Caddy /live) ----------
+// ---------- live feed (SSE from the backend /live endpoint) ----------
 export function startLive() {
   if (!window.EventSource || S.live._es) return;
   S.live.state = 'connecting';
