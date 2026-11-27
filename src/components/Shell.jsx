@@ -97,7 +97,7 @@ export function Shell({ section, onSearch, children }) {
           <div className="hdr-spacer" />
           <span className="hdr-meta" title="live event feed">
             <span className={'dot ' + (S.live.state === 'on' ? 'ok' : S.live.state === 'off' ? 'bad' : '')} />
-            {S.live.state === 'on' ? 'live' : S.live.state === 'n/a' ? 'live n/a' : 'live · reconnecting'}
+            {S.live.state === 'on' ? 'live' : S.live.state === 'snapshot' ? 'snapshot' : S.live.state === 'n/a' ? 'live n/a' : 'live · reconnecting'}
           </span>
           <form className="search" onSubmit={e => { e.preventDefault(); onSearch(q); }}>
             <Icon name="search" />

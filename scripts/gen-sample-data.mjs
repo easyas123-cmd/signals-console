@@ -45,6 +45,7 @@ const devices = rfModels.map((m, i) => {
 const noiseRecent = Array.from({ length: 30 }, (_, i) => [iso((30 - i) * 10000), +r(-80, -68).toFixed(1)]);
 const hourly = {}; for (let h = 167; h >= 0; h--) { const d = new Date(now - h * 36e5); hourly[d.toISOString().slice(0, 13)] = +r(-80, -70).toFixed(1); }
 write('summary.json', {
+  demo: true,
   generated_at: iso(8000),
   receiver: { status: 'running', model: 'rtl_433', freq_mhz: 433.92 },
   noise: { current_db: -72.4, baseline_db: -77.9, recent: noiseRecent, hourly },

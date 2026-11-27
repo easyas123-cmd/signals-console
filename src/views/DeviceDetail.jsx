@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { S, useStore, api, devHref, apHref } from '../lib/store.js';
+import { S, useStore, api, devHref, apHref, isDemo } from '../lib/store.js';
 import { Icon, rfIcon } from '../components/icons.jsx';
 import { Panel, DataTable, Stat, Chip, Empty, Star, Cmd, NotesCard, Hours, LineChart, Chip as C, DashboardLink } from '../components/ui.jsx';
 import { linkifyMacs } from '../lib/columns.jsx';
@@ -13,6 +13,7 @@ export default function DeviceDetail({ slug }) {
   useEffect(() => {
     let live = true;
     (async () => {
+      if (isDemo()) return;  // no per-device history endpoint on a static deploy
       try {
         const r = await fetch(api('devices/' + encodeURIComponent(slug) + '.json'), { cache: 'no-store' });
         if (!r.ok) throw new Error('HTTP ' + r.status);

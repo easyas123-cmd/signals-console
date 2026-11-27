@@ -1,8 +1,9 @@
-import { S, useStore, notify, api, loadAll } from '../lib/store.js';
+import { S, useStore, notify, api, loadAll, isDemo } from '../lib/store.js';
 import { Panel, DataTable, Chip, Empty, toast } from '../components/ui.jsx';
 import { fmtDT, fmtT } from '../lib/format.js';
 
 async function runJob(job) {
+  if (isDemo()) { toast('Triggering jobs needs the live backend; this is a static demo.'); return; }
   if (!confirm(`Run ${job} now? Active schedule timers will pause and resume afterward.`)) return;
   try {
     const r = await fetch(api('jobs/trigger'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ job }) });

@@ -219,7 +219,7 @@ function ComingsAndGoings() {
 
 function LiveColumn() {
   const { state, events } = S.live;
-  const label = state === 'on' ? 'connected' : state === 'n/a' ? 'n/a' : 'reconnecting';
+  const label = state === 'on' ? 'connected' : state === 'snapshot' ? 'snapshot' : state === 'n/a' ? 'n/a' : 'reconnecting';
   return (
     <aside className="live-col">
       <div className="live-head">

@@ -8,6 +8,10 @@ import {
 
 const ANNOT_KEYS = ['notes', 'watch', 'tags', 'track', 'trackLog'];
 export const api = p => new URL(p, document.baseURI).href;
+// In a static deploy there is no backend; summary.json then carries demo:true,
+// and the app shows a snapshot badge and skips the live-only endpoints rather
+// than failing their requests.
+export const isDemo = () => !!(S.sum && S.sum.demo);
 
 const ls = (k, d) => { try { return JSON.parse(localStorage.getItem('sd.' + k) || d); } catch { return JSON.parse(d); } };
 
@@ -60,6 +64,7 @@ function annotMerge(d, union) {
   for (const k of ANNOT_KEYS) localStorage.setItem('sd.' + k, JSON.stringify(S[k]));
 }
 export async function annotPull() {
+  if (isDemo()) { S.annot.online = false; return; }
   try {
     const r = await fetch(api('annotations?_=' + Date.now()), { cache: 'no-store' }); if (!r.ok) throw new Error(r.status);
     const d = await r.json(); const first = S.annot.online === null; S.annot.online = true;
@@ -98,10 +103,13 @@ async function j(u, tries = 3) {
   throw last;
 }
 export async function loadAll() {
-  const [sum, jobs, job, inc, wifi, ham] = await Promise.allSettled([
-    j('summary.json'), j('jobs.json'), j('jobs/status'), j('incidents.json'), j('wifi.json'), j('ham.json'),
+  // Summary first, so isDemo() is known before we decide whether to call the
+  // backend-only jobs/status endpoint (absent on a static deploy).
+  try { S.sum = await j('summary.json'); } catch (e) { if (!S.sum) throw e; }
+  const [jobs, job, inc, wifi, ham] = await Promise.allSettled([
+    j('jobs.json'), isDemo() ? Promise.resolve(S.job) : j('jobs/status'),
+    j('incidents.json'), j('wifi.json'), j('ham.json'),
   ]);
-  if (sum.status === 'fulfilled') S.sum = sum.value; else if (!S.sum) throw sum.reason;
   S.jobs = jobs.status === 'fulfilled' ? jobs.value : S.jobs;
   S.job = job.status === 'fulfilled' ? job.value : S.job;
   S.inc = inc.status === 'fulfilled' ? inc.value : S.inc;
@@ -231,10 +239,11 @@ export function startLive() {
 // ---------- boot ----------
 export async function boot() {
   S.route = parseHash();
-  startLive();
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      await Promise.all([loadAll(), annotPull()]);
+      await loadAll();
+      if (isDemo()) { S.live.state = 'snapshot'; S.annot.online = false; }
+      else { startLive(); await annotPull(); }
       trackTick();
       S.error = null; S.ready = true;
       notify();
